@@ -1,0 +1,14 @@
+<launch>
+    <arg name="rgb_image_topic" default="/camera/qhd/image_color_rect"/>
+    <arg name="cmd_vel_topic" default="/cmd_vel_mux/input/teleop"/>
+    <arg name="line_color" default="red" doc="color of the line that robot will follow [red, yellow, green, blue, white, black]"/>
+    <!-- Detection node -->
+    <node pkg="line_follower" name="detection" type="detect" output="screen" required="true">
+        <remap from="/camera/rgb/image_raw" to="$(arg rgb_image_topic)"/>
+        <param name="line_color" value="$(arg line_color)"/>
+    </node>
+    <!-- Robot commands node -->
+    <node pkg="line_follower" name="Velocity" type="navig" output="screen" required="true">
+        <remap from="/cmd_vel" to="$(arg cmd_vel_topic)"/>
+    </node>
+</launch>
