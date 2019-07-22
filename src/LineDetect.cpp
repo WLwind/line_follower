@@ -3,11 +3,14 @@
 #include <string>
 #include <ros/console.h>
 
-LineDetect::LineDetect()
+LineDetect::LineDetect(bool dis):display_img(dis)
 {
-  ROS_INFO("Create a window.");
-  cv::namedWindow("Robot_View");//start a window to show images
-  dir_msg.data=1;
+  if(display_img)
+  {
+    ROS_INFO("Create a window.");
+    cv::namedWindow("Robot_View");//start a window to show images
+  }
+  dir_msg.data=1;//default direction is straight
   std::string color_string;
   if(ros::param::get("~line_color", color_string))
   {
@@ -23,8 +26,11 @@ LineDetect::LineDetect()
 
 LineDetect::~LineDetect()
 {
-  ROS_INFO("Destroy the window.");
-  cv::destroyWindow("Robot_View");
+  if(display_img)
+  {
+    ROS_INFO("Destroy the window.");
+    cv::destroyWindow("Robot_View");
+  }
 }
 
 void LineDetect::imageCallback(const sensor_msgs::ImageConstPtr& msg)
@@ -128,7 +134,8 @@ int LineDetect::colorthresh(cv::Mat input)
     dir = 3;
   }
   // Output images viewed by the turtlebot
-  imshow("Robot_View", input);
+  if(display_img)
+    imshow("Robot_View", input);
   proc_img_msg=cv_bridge::CvImage(std_msgs::Header(), "bgr8", input).toImageMsg();//CVimage to ROS image
   proc_img_pub.publish(proc_img_msg);//publish processed image
   return dir;

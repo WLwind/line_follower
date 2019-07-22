@@ -15,7 +15,7 @@
 */
 class LineDetect {
  public:
-    LineDetect();
+    LineDetect(bool=true);//whether to display the image in a window
     virtual ~LineDetect();
     cv::Mat img;  /// Input image in opencv matrix format
     cv::Mat img_filt;  /// Filtered image in opencv matrix format
@@ -40,6 +40,7 @@ class LineDetect {
     int colorthresh(cv::Mat input);
 
  private:
+    bool display_img{false};
     ros::NodeHandle n;
     image_transport::ImageTransport ith{n};//image_transport handle
     cv::Scalar LowerColor{0 , 43, 46};//red section 1
