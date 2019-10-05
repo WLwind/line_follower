@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+##python版本颜色识别框架，没有加直线算法
 import rospy
 from sensor_msgs.msg import RegionOfInterest, CameraInfo
 from geometry_msgs.msg import Twist
