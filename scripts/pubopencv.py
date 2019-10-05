@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+#将图像信息转化为数组
 import rospy
 import cv2
 import numpy as np
@@ -40,9 +40,9 @@ class image_converter:
         mask = cv2.inRange(hsv, lower, upper)
         cv2.imshow("test", mask)
         #腐蚀操作
-        #mask = cv2.erode(mask,None,iterations = 2)
+        mask = cv2.erode(mask,None,iterations = 2)
         #膨胀操作，先腐蚀后膨胀以消除噪音
-        #mask = cv2.dilate(mask,None,iterations=2)
+        mask = cv2.dilate(mask,None,iterations=2)
         #寻找图中轮廓
         cnts = cv2.findContours(mask.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)[-2]
         #至少存在一个轮廓进行以下操作
